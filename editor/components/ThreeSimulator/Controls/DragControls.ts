@@ -27,7 +27,7 @@ class DragControls extends EventDispatcher {
 
   constructor(_objects, _camera, _domElement) {
     super();
-
+    console.log(_objects);
     _domElement.style.touchAction = "none"; // disable touch scroll
 
     let _selected = null;
@@ -68,7 +68,8 @@ class DragControls extends EventDispatcher {
     }
 
     function onPointerMove(event) {
-      if (scope.enabled === false) return;
+      // console.log("on pointer move", _selected);
+      // if (scope.enabled === false) return;
 
       updatePointer(event);
 
@@ -127,7 +128,7 @@ class DragControls extends EventDispatcher {
     }
 
     function onPointerDown(event) {
-      if (event.button !== 0 || scope.enabled === false) return;
+      // if (event.button !== 0 || scope.enabled === false) return;
 
       updatePointer(event);
 
@@ -135,7 +136,6 @@ class DragControls extends EventDispatcher {
 
       _raycaster.setFromCamera(_pointer, _camera);
       _raycaster.intersectObjects(_objects, true, _intersections);
-
       if (_intersections.length > 0) {
         _selected =
           scope.transformGroup === true
@@ -155,7 +155,7 @@ class DragControls extends EventDispatcher {
         }
 
         _domElement.style.cursor = "move";
-
+        console.log(_selected);
         scope.dispatchEvent({ type: "dragstart", object: _selected });
       }
     }

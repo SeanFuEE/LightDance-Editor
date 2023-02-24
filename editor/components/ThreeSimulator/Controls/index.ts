@@ -113,11 +113,12 @@ class Controls {
   }
 
   initDragControls() {
-    this.dragControls = new DragControls(
+    const dragcontrols = new DragControls(
       [...this.objects],
       this.camera,
       this.renderer.domElement
     );
+    this.dragControls = dragcontrols;
     this.dragControls.enabled = false;
     this.dragControls.addEventListener("dragend", this.dragEnd.bind(this));
   }

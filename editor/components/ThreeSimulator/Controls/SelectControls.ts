@@ -26,7 +26,6 @@ const _group = new Group();
 class SelectControls extends EventDispatcher {
   constructor(_objects, _camera, _domElement, _dragControls, _dancers, _scene) {
     super();
-
     _domElement.style.touchAction = "none"; // disable touch scroll
 
     let _selected = null;
@@ -84,7 +83,6 @@ class SelectControls extends EventDispatcher {
 
     function onPointerDown(event) {
       if (event.button !== 0 || scope.enabled === false) return;
-
       //TODO: selection box implement
       scope.onLasso = true;
       const rect = _domElement.getBoundingClientRect();
@@ -128,7 +126,10 @@ class SelectControls extends EventDispatcher {
       }
 
       _updateDragGroup();
-      if (state.selectionMode === "DANCER_MODE") {
+      if (
+        state.selectionMode === "DANCER_MODE" ||
+        state.selectionMode === "POSITION_MODE"
+      ) {
         setSelectedDancers({
           payload: _group.children.map((child) => child.name),
         });
@@ -138,6 +139,9 @@ class SelectControls extends EventDispatcher {
     let _hover = null;
 
     function onPointerMove(event) {
+      if (state.editMode === "EDITING") {
+        return;
+      }
       if (scope.onLasso) {
         updatePointer(event);
         _raycaster.setFromCamera(_pointer, _camera);
